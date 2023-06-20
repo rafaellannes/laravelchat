@@ -18,10 +18,10 @@ class UserApiController extends Controller
 
     public function index(Request $request)
     {
-        $users = $this->user->get();
+        $users = $this->user
+            ->where('id', "!=", $request->user()->id)
+            ->get();
 
         return UserResource::collection($users);
     }
 }
-
-
