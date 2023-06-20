@@ -7,6 +7,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/sass/app.scss',
+                'resources/css/chat.css',
                 'resources/js/app.js',
             ],
             refresh: true,
