@@ -5,7 +5,8 @@
  */
 
 import './bootstrap';
-import { createApp } from 'vue';
+import Vue from 'vue';
+window.Vue = Vue;
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -13,11 +14,11 @@ import { createApp } from 'vue';
  * to use in your application's views. An example is included for you.
  */
 
-const app = createApp({});
+
 
 //import ExampleComponent from './components/ExampleComponent.vue';
 import ChatComponent from './components/Chat/ChatComponent.vue';
-app.component('chat-component', ChatComponent);
+Vue.component('chat-component', ChatComponent);
 
 /**
  * The following block of code may be used to automatically register your
@@ -37,4 +38,6 @@ app.component('chat-component', ChatComponent);
  * scaffolding. Otherwise, you will need to add an element yourself.
  */
 
-app.mount('#app');
+const app = new Vue({
+    el:'#app'
+});
