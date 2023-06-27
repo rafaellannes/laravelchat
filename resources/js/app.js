@@ -8,6 +8,8 @@ import './bootstrap';
 import Vue from 'vue';
 window.Vue = Vue;
 
+import store from './vuex/store'
+
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
  * registering components with the application instance so they are ready
@@ -39,5 +41,6 @@ Vue.component('chat-component', ChatComponent);
  */
 
 const app = new Vue({
-    el:'#app'
+    el: '#app',
+    store
 });
