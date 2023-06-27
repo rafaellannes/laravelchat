@@ -1,5 +1,6 @@
 import 'bootstrap';
 
+
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
@@ -32,13 +33,36 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     enabledTransports: ['ws', 'wss'],
 // });
 
-import Echo from 'laravel-echo';
-
 import io from 'socket.io-client';
-
 window.io = io;
+
+import Echo from 'laravel-echo';
 
 window.Echo = new Echo({
     broadcaster: 'socket.io',
     host: window.location.hostname + ':6001'
 });
+
+import initializeEcho from './Echo';
+
+initializeEcho();
+
+/* window.Echo.join('laravelchat_database_chatroom')
+    .here((users) => {
+        console.log('Usuarios online');
+        console.log(users);
+    })
+    .joining((user) => {
+        console.log('Usuario conectado');
+        console.log(user);
+    })
+    .leaving((user) => {
+        console.log('Usuario conectado');
+        console.log(user);
+    }) */
+
+
+
+
+
+
