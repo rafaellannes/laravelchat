@@ -2,12 +2,13 @@
   <div class="chat-sidebar">
     <div class="px-8 lg:py-4 lg:px-6">
       <h3 class="text-xl font-semibold tracking-wide mt-5 hidden lg:block">
-        Conversas
+        Usuários
       </h3>
       <div class="relative my-5 text-gray-600">
         <input
           type="search"
           name="serch"
+          v-model="filter"
           placeholder="Search"
           class="w-full bg-gray-100 h-10 px-5 pr-10 rounded-full text-sm focus:outline-none focus:shadow-lg focus:bg-white hover:shadow-md"
         />
@@ -35,7 +36,7 @@
     </div>
     <!-- users -->
     <ul class="flex flex-col chat-list">
-      <div v-for="(user, index) in users.data" :key="index">
+      <div v-for="(user, index) in users" :key="index">
         <li
           class="bg-white hover:bg-gray-100 border-b p-4 cursor-pointer"
           :class="{ 'is-active': activeChat === index }"
@@ -47,7 +48,8 @@
                 :alt="user.name"
                 class="w-12 h-12 rounded-full"
               />
-              <span v-if="user.online"
+              <span
+                v-if="user.online"
                 class="text-green-500 absolute -bottom-0.5 -right-0.5 rounded-full bg-white border-white border-4"
               >
                 <svg width="10" height="10">
@@ -78,7 +80,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
   mounted() {
@@ -86,15 +88,32 @@ export default {
   },
 
   computed: {
-    ...mapState({
+    /*     ...mapState({
       users: (state) => state.users.users,
+    }), */
+
+    ...mapGetters({
+      allUsers: "sortedUsers",
     }),
+
+    users() {
+      return this.allUsers.filter((user) => {
+        if (this.filter == "") return user;
+
+        const searchTerm = this.filter.toLowerCase();
+        const userName = user.name.toLowerCase();
+        const userEmail = user.email.toLowerCase();
+
+        return userName.includes(searchTerm) || userEmail.includes(searchTerm);
+      });
+    },
   },
 
   data() {
     return {
       selected: "inbox",
       activeChat: 0,
+      filter: "",
     };
   },
 
