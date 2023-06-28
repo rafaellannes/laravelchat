@@ -31,13 +31,17 @@ export default function () {
             console.log(e.message);
             let conversation = e.message;
 
-            Vue.$vToastify.success(`
-            Mensagem: ${conversation.message}
-            `,
-                `${conversation.sender.name} enviou uma mensagem`
-            )
+            if (store.state.chat.userConversation == null ||
+                store.state.chat.userConversation.id != conversation.sender.id) {
 
-            /*  store.commit('ADD_NEW_MESSAGE', e.message); */
+                Vue.$vToastify.success(`
+                    Mensagem: ${conversation.message}
+                    `, `${conversation.sender.name} enviou uma mensagem`)
+
+            } else {
+                conversation.me = false;
+                store.commit('ADD_MESSAGE', conversation)
+            }
         })
 }
 
