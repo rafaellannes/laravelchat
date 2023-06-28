@@ -8,7 +8,11 @@ import './bootstrap';
 import Vue from 'vue';
 window.Vue = Vue;
 
-import store from './vuex/store'
+import VueToastify from 'vue-toastify';
+
+Vue.use(VueToastify, {position: 'top-right'});
+
+import store from './vuex/store';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin

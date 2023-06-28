@@ -1,4 +1,6 @@
+import Vue from 'vue'
 import store from './vuex/store'
+
 
 export default function () {
     window.Echo.join('laravelchat_database_chatroom')
@@ -27,8 +29,15 @@ export default function () {
         .listen('NewMessageCreated', (e) => {
             console.log('Nova mensagem');
             console.log(e.message);
+            let conversation = e.message;
 
-           /*  store.commit('ADD_NEW_MESSAGE', e.message); */
+            Vue.$vToastify.success(`
+            Mensagem: ${conversation.message}
+            `,
+                `${conversation.sender.name} enviou uma mensagem`
+            )
+
+            /*  store.commit('ADD_NEW_MESSAGE', e.message); */
         })
 }
 
