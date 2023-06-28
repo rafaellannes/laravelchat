@@ -20,6 +20,16 @@ export default function () {
 
             store.commit('REMOVE_ONLINE_USER', user);
         })
+
+    const userId = window.Laravel.user
+
+    window.Echo.channel(`laravelchat_database_private-chat.${userId}`)
+        .listen('NewMessageCreated', (e) => {
+            console.log('Nova mensagem');
+            console.log(e.message);
+
+           /*  store.commit('ADD_NEW_MESSAGE', e.message); */
+        })
 }
 
 

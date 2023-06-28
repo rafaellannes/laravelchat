@@ -10,6 +10,12 @@
     <title>@yield('title')</title>
 
     @vite(['resources/sass/app.scss', 'resources/css/chat.css', 'resources/js/app.js'])
+
+    <script>
+        window.Laravel = {!! json_encode([
+            'user' => auth()->check() ? auth()->user()->id : '',
+        ]) !!}
+    </script>
 </head>
 
 <body>
