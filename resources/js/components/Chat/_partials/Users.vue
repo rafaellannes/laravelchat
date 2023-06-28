@@ -118,7 +118,7 @@ export default {
   data() {
     return {
       selected: "inbox",
-      activeChat: 1,
+      activeChat: 0,
       filter: "",
     };
   },
@@ -127,12 +127,14 @@ export default {
     ...mapMutations({
       addUserChat: "ADD_USER_CONVERSATION",
     }),
-    ...mapActions(["getUsers"]),
+    ...mapActions(["getUsers", "getMessagesConversation"]),
 
     openChatWith(user) {
       this.activeChat = user.id;
 
       this.addUserChat(user);
+
+      this.getMessagesConversation();
     },
   },
 };
