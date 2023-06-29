@@ -68,7 +68,7 @@
       </div>
       <div class="chat-window__messages-wrapper">
         <!-- chat msgs  -->
-        <div class="chat-window__messages-inner">
+        <div class="chat-window__messages-inner" ref="messages">
           <div class="chat-messages">
             <div
               v-for="(message, index) in messages"
@@ -121,6 +121,8 @@
             <div class="flex-grow ml-4">
               <div class="relative w-full">
                 <input
+                  v-on:keyup.enter="sendMessage"
+                  v-model="message"
                   type="text"
                   class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
                 />
@@ -128,9 +130,13 @@
             </div>
             <div class="ml-4">
               <button
+                :disabled="disabledButton"
+                type="submit"
+                @click="sendMessage"
                 class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
               >
-                <span>Enviar</span>
+                <span v-if="sendingMessage">Enviando...</span>
+                <span v-else>Enviar</span>
                 <span class="ml-2">
                   <svg
                     class="w-4 h-4 transform rotate-45 -mt-px"
@@ -165,6 +171,49 @@ export default {
       userConversation: (state) => state.chat.userConversation,
       messages: (state) => state.chat.messages,
     }),
+
+    disabledButton() {
+      return this.message.length < 1 || this.sendingMessage;
+    },
+  },
+
+  data() {
+    return {
+      message: "",
+      sendingMessage: false,
+    };
+  },
+
+  methods: {
+    ...mapActions(["sendNewMessage"]),
+
+    scrollMessages() {
+      setTimeout(() => {
+        this.$refs.messages.scroll({
+          top: this.$refs.messages.scrollHeight,
+          behavior: "smooth",
+        });
+      }, 10);
+    },
+
+    sendMessage() {
+      if (this.disabledButton) return;
+
+      this.sendingMessage = true;
+      this.sendNewMessage(this.message)
+        .then((response) => {
+          this.message = "";
+        })
+        .finally(() => {
+          this.sendingMessage = false;
+        });
+    },
+  },
+
+  watch: {
+    messages() {
+      this.scrollMessages();
+    },
   },
 };
 </script>

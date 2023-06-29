@@ -37,7 +37,24 @@ export default {
                 .catch(error => {
                     console.log(error)
                 })
-        }
+        },
+
+        sendNewMessage({ state, commit }, message) {
+            return axios.post('/api/v1/messages', {
+                receiver_id: state.userConversation.id,
+                message: message
+            })
+                .then(response => {
+                    commit('ADD_MESSAGE', {
+                        message: message,
+                        receiver: { ...state.userConversation },
+                        me: true,
+                    })
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        },
     },
 
     getters: {
