@@ -217,3 +217,15 @@ export default {
   },
 };
 </script>
+<style scoped>
+.chat-window__messages-inner::-webkit-scrollbar-track {
+    background-color: #dad7d7;
+}
+.chat-window__messages-inner::-webkit-scrollbar {
+    width: 6px;
+    background: #dad7d7;
+}
+.chat-window__messages-inner::-webkit-scrollbar-thumb {
+    background: #6610f2;
+}
+</style>
